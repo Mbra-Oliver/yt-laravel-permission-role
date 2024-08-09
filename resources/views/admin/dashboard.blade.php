@@ -1,8 +1,13 @@
-@extends('layout._layout')
+@extends('layout.appLayout')
 @section('content')
     <div class="shadow-sm border border-gray-100 rounded-md p-8">
-        <div class="font-semibold text-2xl"> {{ auth()->user()->name }}</div>
-        <div>role:</div>
+        <div class="font-semibold text-2xl"> {{ $connectedUser->name }}</div>
+        <div>role: {{ $connectedUser->roles[0]->name }} </div>
+        <div>
+            Permissions disponible: @foreach ($connectedUser->roles[0]->permissions as $permission)
+                <span class="border border-gray-100 bg-green-300 rounded-md p-2 text-xs">{{ $permission->name }}</span>
+            @endforeach
+        </div>
 
 
         <div class="mt-4">
@@ -27,7 +32,10 @@
             <div class="w-full mt-10 mb-10 ">
                 <div class="flex gap-2 justify-end items-end">
 
-                    <button class="bg-blue-500 rounded-md p-2 text-xs text-white">Ajouter un employer</button>
+                    @if ($connectedUser->can('ADD_NEW_EMPLOYE'))
+                        <button class="bg-blue-500 rounded-md p-2 text-xs text-white">Ajouter un employer</button>
+                    @endif
+
 
                     <form method="post" action="{{ route('admin.logout') }}">
                         @csrf
@@ -57,7 +65,24 @@
                                 </td>
                                 <td class="px-4 py-3 ">
 
+                                    @if ($connectedUser->can('ADD_DATA') || $connectedUser->can('EDIT_DATA'))
+                                        <a href="{{ route('admin.manageData', $user->id) }}"
+                                            class="bg-blue-800 text-sm px-1 py-2 rounded-lg text-white cursor-pointer">Modifier
+                                            les
+                                            données</a>
+                                    @endif
 
+
+                                    @if ($connectedUser->can('DELETE_AN_EMPLOYE'))
+                                        <a href=""
+                                            class="bg-red-900 p-3 rounded-md text-white text-center">Supprimer</a>
+                                    @endif
+
+
+
+                                    {{-- @if ($connectedUser->roles[0]->name === 'DATA_MANAGER')
+                                        <button>Gerer les donnees</button>
+                                    @endif --}}
 
                                 </td>
                             </tr>

@@ -1,4 +1,4 @@
-@extends('layout._layout')
+@extends('layout.appLayout')
 @section('content')
     <div class="px-12">
         @if (Session::get('success'))
@@ -19,7 +19,7 @@
 
 
 
-            <form action="{{ route('user.register') }}" method="post"
+            {{-- <form action="{{ route('user.register') }}" method="post"
                 class="flex flex-col gap-4 shadow-sm border border-gray-100 rounded-md p-8 ">
                 @csrf
                 @method('post')
@@ -55,7 +55,7 @@
                     <button type="submit" class="bg-gray-700 text-white p-2 rounded-md">Creer mon
                         compte</button>
                 </div>
-            </form>
+            </form> --}}
         </div>
 
         <div class=" shadow-sm border border-gray-100 rounded-md p-8 ">
